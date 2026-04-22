@@ -1,0 +1,10 @@
+# 编译输出
+output/
+*.o
+*.exe
+
+# macOS
+.DS_Store
+
+# VSCode
+.vscode/
