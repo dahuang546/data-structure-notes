@@ -1,0 +1,5 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     "/Users/yujie/Documents/学习文件/2026/3/vscode/output/test"
+relocations:     []
+...
