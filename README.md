@@ -46,3 +46,54 @@
 ---
 
 *持续更新中...*
+
+---
+
+# Data Structure Study Repository
+
+> This is a repository for recording my learning process, mainly managed by an Agent.  
+> It contains content from my sophomore data structures course. I'm just a beginner trying to build a solid programming foundation 💪
+
+---
+
+## About This Repository
+
+Nothing special, just code notes typed out while following the course. Some are finished, some are half-done, slowly filling them in.
+
+## Current Progress
+
+| Chapter | Status | Description |
+|---------|--------|-------------|
+| Sequential List | ✅ Completed | Array-based linear list implementation |
+| Linked List | ✅ Completed | Basic singly linked list operations |
+| Stack | ✅ Completed | Array + linked list implementations |
+| Queue | ✅ Completed | Linked queue |
+| String | 🚧 In Progress | String operations, currently studying search algorithms |
+
+## Code Structure
+
+```
+.
+├── 顺序表/          # Array-based linear list
+├── 链表/            # Singly linked list
+├── 栈/              # Stack (sequential + linked)
+├── 队列/            # Linked queue
+├── 串/              # String (incomplete)
+├── output/          # Compilation output (gitignored)
+└── 2026-04-23-学习笔记.md   # Study diary
+```
+
+## Build Environment
+
+- macOS + VSCode + Clang
+- Compile command: `gcc -o output/xxx xxx.c`
+
+## Random Thoughts
+
+- Code style is pretty casual, since I'm writing it to understand concepts
+- Trying to write clear comments for future reference
+- Taking it slow, no rush ⛰️
+
+---
+
+*Continuously updating...*
