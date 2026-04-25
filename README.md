@@ -29,7 +29,8 @@
 ├── 队列/            # 链式队列
 ├── 串/              # 字符串（未完成）
 ├── output/          # 编译输出（gitignored）
-└── 2026-04-23-学习笔记.md   # 学习日记
+├── 学习笔记.md   # 学习日记
+├── learning-notes.md   # 英文版学习日记
 ```
 
 ## 编译环境
@@ -80,7 +81,8 @@ Nothing special, just code notes typed out while following the course. Some are 
 ├── 队列/            # Linked queue
 ├── 串/              # String (incomplete)
 ├── output/          # Compilation output (gitignored)
-└── 2026-04-23-学习笔记.md   # Study diary
+├── 学习笔记.md   # Study diary
+├── learning-notes.md   # English version
 ```
 
 ## Build Environment

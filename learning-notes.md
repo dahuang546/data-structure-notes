@@ -29,8 +29,8 @@ This repository is used to store the code I write while learning data structures
 ├── 栈/              # Stack (sequential + linked)
 ├── 队列/            # Queue
 ├── 串/              # String (incomplete)
-├── 2026-04-23-学习笔记.md   # Chinese version
-└── 2026-04-23-learning-notes.md   # This file
+├── 学习笔记.md   # Chinese version
+└── learning-notes.md   # This file
 ```
 
 ## Study Log
