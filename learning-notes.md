@@ -51,6 +51,9 @@ Finally tried to translate my logic into code! Harder than I imagined. The first
 ### April 25, 2026
 Today I spent more than an hour and finally completely understood the next array in the KMP algorithm, and also knew how to write it. I wrote it by myself and then let AI modify it a little bit and optimize it. So satisfying haha, this feeling is really great
 
+### April 25, 2026 (continued)
+Completed the full framework of KMP, and also optimized it a bit so it looks more comfortable.
+
 ---
 
 ## Random Thoughts

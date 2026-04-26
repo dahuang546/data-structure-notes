@@ -104,15 +104,33 @@ void getNext(Str t,int next[]){
     }
 }
 
-int kmpfind(Str s,Str t){
+int kmpfind(Str s,Str t){//写的方法是先写一个 BF 算法，然后再加上 kmp，不过这一次优化了一下 BF 的逻辑，没有上次那么乱了
     if(s.length<t.length){
         printf("主串更短没法找");
         return -1;
     }
+    int next[MAXLEN];
+    getNext(t,next);
     int i=0;
     while(i<s.length){//前面部分和 BF 算法几乎一致，这些判断都一样几乎没怎么改
+        int j=0,p=i;
         if(s.ch[i]==t.ch[0]){
-
+            while(j<t.length&&s.ch[i]==t.ch[j]){
+                i++;
+                j++;
+            }
         }
+        else{
+            i++;
+        }
+        if(j==t.length){
+        printf("找到了\n");
+        return i;
+        }
+        else{
+            j=next[j];
+            i=p+1;
+        }
+
     }
 }
