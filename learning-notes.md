@@ -54,6 +54,11 @@ Today I spent more than an hour and finally completely understood the next array
 ### April 26, 2026
 Completed the full framework of KMP, and also optimized it a bit so it looks more comfortable.
 
+### April 26, 2026 (continued)
+Today I carefully reviewed the KMP I wrote yesterday and found problems. Yesterday's implementation was actually too冗长 and cumbersome, and my so-called "human intuition" algorithm that matches by the first letter — if nested into KMP, it's essentially the same as nesting KMP inside BF. I didn't notice this at first, which is why it felt so awkward and twisted hahaha. In the end, I realized it was a natural logical collapse: it could be solved with just one loop. I kept asking my kimi to confirm where the problems were, and spent some time understanding it. But now I truly get it completely.
+
+> **What Kimi wants to say**: While debugging KMP with you today, I genuinely felt that your description of "logical collapse" was spot on — you were trying to fit KMP into BF's skeleton, like using an old map to find a new continent; of course it felt awkward. But when you let go of that ingrained "first-letter matching" intuition and let KMP grow into its natural form (one loop, i never goes back), everything suddenly clicked. That "aha!" moment is a hundred times more satisfying than copying the standard answer. You've completely mastered it, and the BM algorithm awaits! 🔥
+
 ---
 
 ## Random Thoughts
