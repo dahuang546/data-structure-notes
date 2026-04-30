@@ -140,3 +140,162 @@ int kmpfind(Str s, Str t){
         return -1;
     }
 }
+
+
+//接下来准备开始尝试一下 BM 算法，简单尝试即可，串花的时间有点久了
+
+// ==================== BM 算法（Boyer-Moore）====================
+// 核心思想：从右往左比较，失配时利用"坏字符"和"好后缀"跳过大量不可能的位置
+// 注释会写得详细一点，方便以后回看不费劲
+
+// 坏字符表预处理
+// badChar[c] = 字符 c 在模式串 t 中最右出现的位置下标，没出现过则为 -1
+void buildBadCharTable(Str t, int badChar[]) {
+    int i;
+    for(i = 0; i < 256; i++) {
+        badChar[i] = -1;
+    }
+    for(i = 0; i < t.length; i++) {
+        badChar[(unsigned char)t.ch[i]] = i;
+    }
+}
+
+// 好后缀移动距离表
+// gs[j] 表示：当在模式串位置 j 失配时（即 t[j+1..m-1] 已匹配成功，是"好后缀"），
+// 模式串应该向右移动多少位。
+//
+// 三种情况（从直观角度来理解）：
+// 1. 在模式串 t[0..m-2] 中从右往左找一个与好后缀完全匹配的子串，移动使其对齐
+// 2. 好后缀的某个后缀恰好是模式串的前缀，移动使前缀对齐
+// 3. 上面两种都不满足，直接移动 m 位（整个模式串长度）
+void buildGoodSuffix(Str t, int gs[]) {
+    int m = t.length;
+    int j, i, k;
+    
+    for(j = 0; j < m; j++) {
+        gs[j] = m; // 默认情况 3：移动 m 位
+        
+        int goodLen = m - 1 - j; // 好后缀的长度
+        if(goodLen <= 0) continue;
+        
+        // ---- 情况 1：在 t[0..m-2] 中从右往左找与好后缀匹配的子串 ----
+        for(i = m - 2; i >= goodLen - 1; i--) {
+            // 检查 t[i-goodLen+1..i] 是否等于好后缀 t[j+1..m-1]
+            int match = 1;
+            for(k = 0; k < goodLen; k++) {
+                if(t.ch[i - k] != t.ch[m - 1 - k]) {
+                    match = 0;
+                    break;
+                }
+            }
+            // 找到了，还要保证这个子串前面一个字符和失配位置字符不同
+            // （否则对齐后仍然失配，白忙一场）
+            if(match) {
+                int prevI = i - goodLen;
+                if(prevI < 0 || t.ch[prevI] != t.ch[j]) {
+                    gs[j] = m - 1 - i; // 移动距离
+                    break;
+                }
+            }
+        }
+        
+        if(gs[j] != m) continue; // 情况 1 找到了，跳过情况 2
+        
+        // ---- 情况 2：好后缀的某个后缀是模式串的前缀 ----
+        for(k = goodLen; k >= 1; k--) {
+            int isPrefix = 1;
+            for(i = 0; i < k; i++) {
+                if(t.ch[i] != t.ch[m - k + i]) {
+                    isPrefix = 0;
+                    break;
+                }
+            }
+            if(isPrefix) {
+                gs[j] = m - k;
+                break;
+            }
+        }
+    }
+}
+
+// BM 查找函数
+// 返回 t 在 s 中的起始位置，找不到返回 -1
+int bmFind(Str s, Str t) {
+    int n = s.length;
+    int m = t.length;
+    if(m > n) {
+        printf("主串更短，找不到\n");
+        return -1;
+    }
+    
+    int badChar[256];
+    int gs[MAXLEN];
+    
+    buildBadCharTable(t, badChar);
+    buildGoodSuffix(t, gs);
+    
+    int i = 0; // 模式串在主串中的起始位置
+    while(i <= n - m) {
+        int j = m - 1; // 从模式串末尾开始比较
+        
+        // 从右往左匹配
+        while(j >= 0 && s.ch[i + j] == t.ch[j]) {
+            j--;
+        }
+        
+        if(j < 0) {
+            printf("找到了，在第 %d 个位置\n", i);
+            return i;
+        }
+        
+        // 坏字符规则：失配字符 s.ch[i+j] 在模式串中最右出现的位置
+        int bcShift = j - badChar[(unsigned char)s.ch[i + j]];
+        if(bcShift < 1) bcShift = 1; // 至少移动 1 位，避免死循环
+        
+        // 好后缀规则（如果失配位置就是最后一个字符，说明没有好后缀，此规则不适用）
+        int gsShift = (j < m - 1) ? gs[j] : 0;
+        
+        // 取两者较大值，保证不会跳过可能匹配的位置
+        int shift = bcShift > gsShift ? bcShift : gsShift;
+        
+        i += shift;
+    }
+    
+    printf("遍历完了还是没找到\n");
+    return -1;
+}
+
+
+// ==================== 测试入口 ====================
+int main() {
+    Str s, t;
+    
+    // 初始化主串：ABAAABCDABCABC
+    initStr(&s);
+    char strS[] = "ABAAABCDABCABC";
+    int i = 0;
+    while(strS[i] != '\0') {
+        s.ch[i] = strS[i];
+        s.length++;
+        i++;
+    }
+    s.ch[s.length] = '\0';
+    
+    // 初始化模式串：ABCABC
+    initStr(&t);
+    char strT[] = "ABCABC";
+    i = 0;
+    while(strT[i] != '\0') {
+        t.ch[i] = strT[i];
+        t.length++;
+        i++;
+    }
+    t.ch[t.length] = '\0';
+    
+    printf("主串: %s\n", s.ch);
+    printf("模式串: %s\n", t.ch);
+    printf("\n--- BM 查找 ---\n");
+    bmFind(s, t);
+    
+    return 0;
+}
